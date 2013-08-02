@@ -1,0 +1,60 @@
+name = Email Lobbyist Distribution
+description = Distribution for the Mass Email Lobbyist module: lobby by email through subscribers' own email accounts
+core = 7.x
+; ----------
+; Dependencies
+; ----------
+; Email Lobbyist
+dependencies[] = elobbyist
+dependencies[] = elobbyist_domainname
+; Core
+dependencies[] = block
+dependencies[] = dblog
+dependencies[] = field
+dependencies[] = field_sql_storage
+dependencies[] = field_ui
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+; Administration
+dependencies[] = actions_permissions
+dependencies[] = admin_menu
+dependencies[] = admin_menu_toolbar
+; Chaos tool suite
+dependencies[] = ctools
+
+; Clientside Validation
+dependencies[] = clientside_validation
+dependencies[] = clientside_validation_fapi
+dependencies[] = clientside_validation_form
+; Date/Time
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_popup
+; Development
+dependencies[] = fapi_validation
+; Encryption
+dependencies[] = encrypt
+; Field
+dependencies[] = timeperiod
+; Fields
+dependencies[] = entityreference
+; Other
+dependencies[] = entity
+dependencies[] = entity_token
+; Relation
+dependencies[] = relation
+dependencies[] = relation_dummy_field
+dependencies[] = relation_endpoint
+; Rules
+dependencies[] = rules
+; User interface
+dependencies[] = ckeditor
+; Views
+dependencies[] = views
+dependencies[] = views_bulk_operations
+dependencies[] = views_data_export
+dependencies[] = views_ui
