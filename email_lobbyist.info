@@ -7,6 +7,8 @@ core = 7.x
 ; Email Lobbyist
 dependencies[] = elobbyist
 dependencies[] = elobbyist_domainname
+dependencies[] = elobbyist_filter
+dependencies[] = elobbyist_ckeditor_profile
 ; Core
 dependencies[] = block
 dependencies[] = dblog
