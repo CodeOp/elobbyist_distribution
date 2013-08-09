@@ -1,0 +1,13 @@
+label.elobbyist-field-label { 
+  font-weight: bold;
+}
+
+.form-checkboxes {
+  max-height:90px;
+  width:300px;
+  overflow:auto;
+}
+
+.form-select {
+  min-width: 70px;
+}

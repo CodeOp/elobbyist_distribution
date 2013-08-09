@@ -8,7 +8,7 @@ core = 7.x
 dependencies[] = elobbyist
 dependencies[] = elobbyist_domainname
 dependencies[] = elobbyist_filter
-dependencies[] = elobbyist_ckeditor_profile
+dependencies[] = elobbyist_wysiwyg_profile
 ; Core
 dependencies[] = block
 dependencies[] = dblog
@@ -57,7 +57,7 @@ dependencies[] = relation_endpoint
 ; Rules
 dependencies[] = rules
 ; User interface
-dependencies[] = ckeditor
+dependencies[] = wysiwyg
 ; Views
 dependencies[] = views
 dependencies[] = views_bulk_operations

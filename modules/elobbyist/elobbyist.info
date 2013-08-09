@@ -1,0 +1,75 @@
+name = Email Lobbyist
+description = Mass lobby by email through subscribers' own email accounts
+core = 7.x
+package = Email Lobbyist
+php = 5.3
+configure = elobbyist/settings
+
+; ----------
+; Dependencies
+; ----------
+; Email Lobbyist
+dependencies[] = elobbyist_domainname
+dependencies[] = elobbyist_filter
+; Core
+dependencies[] = block
+dependencies[] = dblog
+dependencies[] = field
+dependencies[] = field_sql_storage
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+; Administration
+dependencies[] = actions_permissions
+; Chaos tool suite
+dependencies[] = ctools
+
+; Clientside Validation
+dependencies[] = clientside_validation
+dependencies[] = clientside_validation_fapi
+dependencies[] = clientside_validation_form
+; Date/Time
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_popup
+; Development
+dependencies[] = fapi_validation
+; Encryption
+dependencies[] = encrypt
+; Features
+dependencies[] = features
+; Field
+dependencies[] = timeperiod
+; Fields
+dependencies[] = entityreference
+; Other
+dependencies[] = entity
+dependencies[] = entity_token
+; Relation
+dependencies[] = relation
+dependencies[] = relation_dummy_field
+dependencies[] = relation_endpoint
+; Rules
+dependencies[] = rules
+; User interface
+dependencies[] = wysiwyg
+; Views
+dependencies[] = views
+dependencies[] = views_bulk_operations
+dependencies[] = views_data_export
+
+; Controller Classes
+files[] = includes/contact.controller.inc
+files[] = includes/contact_group.controller.inc
+files[] = includes/mailing.controller.inc
+files[] = includes/activity.controller.inc
+files[] = includes/template.controller.inc
+files[] = includes/email_provider.controller.inc
+
+; Views handlers
+files[] = views/handlers/elobbyist_views_handler_list_field.inc
+files[] = views/handlers/elobbyist_views_handler_link.inc
+files[] = views/handlers/elobbyist_views_handler_linked_name.inc
+files[] = views/handlers/elobbyist_views_handlers.inc

@@ -1,0 +1,5 @@
+name = Email Lobbyist domain name field
+description = Defines domain names that are exclusive for a specific email provider
+core = 7.x
+package = Email Lobbyist
+php = 5.3

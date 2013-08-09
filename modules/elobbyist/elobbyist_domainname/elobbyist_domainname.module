@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Creates a domain names field (multiple exclusive domains per provider)
+ */
+
+define('ELOBBYIST_DOMAINNAME_DEFAULT_FIELD_LENGTH', 128);
+define('ELOBBYIST_DOMAINNAME_FIELDLENGTH_SETTING_SIZE', 5);
+define('ELOBBYIST_DOMAINNAME_FIELDLENGTH_SETTING_MAX_LENGTH', 4);
+define('ELOBBYIST_DOMAINNAME_DEFAULT_WIDGET_SIZE', 100);
+
+/**
+ * Implements hook_field_info()
+ */
+function elobbyist_domainname_field_info() {
+  return array(
+    'elobbyist_domainname' => array(
+      'label' => t('Domain Names'),
+      'description' => t('This field stores multiple exclusive domains per provider.'),
+      'settings' => array('max_length' => ELOBBYIST_DOMAINNAME_DEFAULT_FIELD_LENGTH,),
+      'instance_settings' => array('text_processing' => 0),
+      'default_widget' => 'text_textfield',
+      'default_formatter' => 'text_default',
+    ),
+  );
+}
+
+/**
+ * field_schema callback
+ */
+function elobbyist_domainname_field_schema($field) {
+  switch($field['type'])
+  {
+    case 'elobbyist_domainname':
+      $schema['columns']['value'] = array(
+        'type' => 'varchar',
+        'length' => $field['settings']['max_length'],
+        'not null' => FALSE,
+      );
+      $schema['indexes']['value'] = array('value');
+      
+      return $schema;
+  }
+}
+
+/**
+ * field_is_empty callback
+ */
+function elobbyist_domainname_field_is_empty($item, $field) {
+  switch($field['type'])
+  {
+    case 'elobbyist_domainname':
+      return empty($item['value']);
+  }
+}
+
+
+/**
+ * field_settings_form callback
+ */
+function elobbyist_domainname_field_settings_form($field, $instance, $has_data) {
+  switch($field['type'])
+  {
+    case 'elobbyist_domainname':
+      $settings = $field['settings'];
+      $form['max_length'] = array(
+        '#type' => 'textfield',
+        '#size' => ELOBBYIST_DOMAINNAME_DEFAULT_FIELDLENGTH_SETTING_SIZE,
+        '#max_length' => ELOBBYIST_DOMAINNAME_FIELDLENGTH_SETTING_MAX_LENGTH,
+        '#title' => t('Max Length'),
+        '#default_value' => $settings['max_length'],
+        '#required' => TRUE,
+        '#description' => t('The length in characters of this field'),
+        '#rules' => array(
+            array(
+              'rule' => 'regexp[/^[1-3]\d{0,3}$/]',
+              'error' => t('Enter an up to 3000 positive number for %field.')
+              ),
+          ),
+      );
+      return $form;
+  }
+}
+
+/**
+ * field_validation callback
+ */
+function elobbyist_domainname_field_validate($obj_type, $object, $field, $instance,
+  $langcode, &$items, &$errors) {
+  switch($field['type'])
+  {
+    case 'elobbyist_domainname':
+      foreach($items as $delta => $item) {
+        //move on, if empty
+        if (empty($item['value'])) {
+          continue;
+        }
+        //validate length
+        if (strlen($item['value']) > $field['settings']['max_length']) {
+            $errors[$field['field_name']][$langcode][$delta][] = array(
+              'error' => 'elobbyist_domainname_max_length',
+              'message' => t(
+                  '%name may not be larger than %max',
+                  array(
+                    '%name' => $instance['label'],
+                    '%max' => $field['settings']['max_length'],
+                  )
+                ),
+            );
+        }
+        //otherwise (if length is valid), validate domain name by prepending "a@" and validating email
+        elseif (!valid_email_address('a@' . $item['value'])) {
+          $errors[$field['field_name']][$langcode][$delta][] = array(
+              'error' => 'elobbyist_domainname_domain_name',
+              'message' => t(
+                  '%name must be valid email domain name(s)',
+                  array(
+                    '%name' => $instance['label'],
+                  )
+                ),
+            );
+        }
+      }
+      break;
+  }
+}
+
+function elobbyist_domainname_field_widget_info_alter(&$info) {
+  // Add the field type to the text_textfield widget
+  $info['text_textfield']['field types'][] = 'elobbyist_domainname';
+}

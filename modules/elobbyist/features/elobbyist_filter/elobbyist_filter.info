@@ -1,0 +1,11 @@
+name = Email Lobbyist HTML Filter
+description = HTML Filter for the Email Lobbyist CKEditor rich text editor to work properly
+core = 7.x
+package = Email Lobbyist
+php = 5.3
+
+dependencies[] = filter
+dependencies[] = features
+
+features[features_api][] = api:1
+features[filter][] = elobbyist_html

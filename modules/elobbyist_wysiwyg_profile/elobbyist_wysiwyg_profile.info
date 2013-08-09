@@ -1,0 +1,11 @@
+name = Email Lobbyist Wysiwyg profile
+description = Profile to enable rich text editor
+core = 7.x
+package = Email Lobbyist
+version = 7.x-1.0
+project = elobbyist_wysiwyg_profile
+dependencies[] = elobbyist_filter
+dependencies[] = features
+dependencies[] = wysiwyg
+features[features_api][] = api:1
+features[wysiwyg][] = elobbyist_html
