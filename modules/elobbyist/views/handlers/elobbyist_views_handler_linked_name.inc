@@ -18,10 +18,18 @@ class elobbyist_views_handler_linked_name extends views_handler_field {
   function init(&$view, &$options) {
     parent::init($view, $options);
     
-    if (entity_access('update', $view->base_table)) {
+    $table = '';
+    if (isset($options['table']) && !empty($options['table'])) {
+      $table = $options['table'];
+    }
+    else {
+      $table = $view->base_table;
+    }
+    
+    if (entity_access('update', $table)) {
       return;
     }
-    elseif (entity_access('view', $view->base_table)) {
+    elseif (entity_access('view', $table)) {
       if (isset($this->definition['readonly url'])) {
         $this->definition['url'] = $this->definition['readonly url'];
       }

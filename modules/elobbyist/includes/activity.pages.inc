@@ -49,7 +49,7 @@ function elobbyist_activity_page_view($entity, $view_mode = 'full') {
   
   $entity->content['from'] = array(
     '#markup' => 
-      theme('elobbyist_field',
+      theme('elobbyist_html',
         array(
           'title' => t('From'),
           'item' => $sFromItem,
@@ -60,7 +60,7 @@ function elobbyist_activity_page_view($entity, $view_mode = 'full') {
 
   $entity->content['to'] = array(
     '#markup' => 
-      theme('elobbyist_field',
+      theme('elobbyist_html',
         array(
           'title' => t('To'),
           'item' => $sToItem,
@@ -71,7 +71,7 @@ function elobbyist_activity_page_view($entity, $view_mode = 'full') {
   
   $entity->content['content'] = array(
     '#markup' => 
-      theme('elobbyist_field',
+      theme('elobbyist_html',
         array(
           'title' => t('Message body'),
           'item' => 

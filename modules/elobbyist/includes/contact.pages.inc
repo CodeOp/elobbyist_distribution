@@ -367,7 +367,7 @@ function elobbyist_contact_page_view($entity, $view_mode = 'full') {
       theme('elobbyist_field',
         array(
           'title' => t('Email'),
-          'item' => filter_xss($entity->email),
+          'item' => $entity->email,
         )
      ),
     '#weight' => -50,
@@ -382,7 +382,7 @@ function elobbyist_contact_page_view($entity, $view_mode = 'full') {
           '#markup' => theme('elobbyist_field',
               array(
                 'title' => t('Provider'),
-                'item' => filter_xss(current($provider)->name),
+                'item' => current($provider)->name,
               )
            ),
           '#weight' => -45,

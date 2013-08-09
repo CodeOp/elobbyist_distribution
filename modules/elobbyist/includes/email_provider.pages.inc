@@ -133,6 +133,50 @@ function elobbyist_email_provider_form_submit($form, &$form_state) {
   }
 }
 
+function elobbyist_email_provider_page_view($entity, $view_mode = 'full') {
+  
+  drupal_set_title(t('Email Provider: @title', array(
+    '@title' => $entity->name, )), PASS_THROUGH);
+
+  // Remove previously built content, if exists.
+  $entity->content = array();
+  
+  $entity->content['#attached']['css'] = array(
+    drupal_get_path('module', 'elobbyist') . '/includes/elobbyist.css',
+  );
+  
+  $entity->content['smtphost'] = array(
+    '#markup' => theme('elobbyist_field',
+        array(
+          'title' => t('SMTP Server Address'),
+          'item' => $entity->smtphost,
+        )
+     ),
+    '#weight' => -30,
+  );
+  
+  $entity->content['smtpport'] = array(
+    '#markup' => theme('elobbyist_field',
+        array(
+          'title' => t('SMTP Server Port'),
+          'item' => $entity->smtpport,
+        )
+     ),
+    '#weight' => -20,
+  );  
+
+  // Build fields content.
+  field_attach_prepare_view('elobbyist_email_provider', 
+    array($entity->providerid => $entity), $view_mode);
+  
+  entity_prepare_view('elobbyist_email_provider', array($entity->providerid => $entity));
+  
+  $entity->content += field_attach_view('elobbyist_email_provider', $entity, $view_mode);
+  
+  return $entity->content;
+}
+
+
 function elobbyist_email_provider_save($entity) {
   return entity_get_controller('elobbyist_email_provider')->save($entity);
 }

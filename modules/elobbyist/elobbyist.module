@@ -248,13 +248,28 @@ function elobbyist_menu() {
       'file' => 'includes/email_provider.pages.inc',
     );
   
+  $items['elobbyist/email-provider'] = array(
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK,
+  );
+  
   $items['elobbyist/email-provider/%elobbyist_email_provider/edit'] = array(
     'title' => 'Edit',
     'page callback' => 'elobbyist_email_provider_page_edit',
     'page arguments' => array(2),
     'access arguments' => array('edit email lobbyist email providers'),
     'weight' => 0,
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/email_provider.pages.inc',
+  );
+  
+  $items['elobbyist/email-provider/%elobbyist_email_provider/view'] = array(
+    'title' => 'View',
+    'page callback' => 'elobbyist_email_provider_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('view email lobbyist email providers'),
+    'weight' => -10,
+    'type' => MENU_LOCAL_TASK,
     'file' => 'includes/email_provider.pages.inc',
   );
 
@@ -496,13 +511,28 @@ function elobbyist_menu() {
       'file' => 'includes/template.pages.inc',
     );
   
+  $items['elobbyist/template'] = array(
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK,
+  );
+  
   $items['elobbyist/template/%elobbyist_template/edit'] = array(
     'title' => 'Edit',
     'page callback' => 'elobbyist_template_page_edit',
     'page arguments' => array(2),
     'access arguments' => array('edit email lobbyist templates'),
     'weight' => 0,
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/template.pages.inc',
+  );
+  
+  $items['elobbyist/template/%elobbyist_template/view'] = array(
+    'title' => 'View',
+    'page callback' => 'elobbyist_template_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('view email lobbyist templates'),
+    'weight' => -10,
+    'type' => MENU_LOCAL_TASK,
     'file' => 'includes/template.pages.inc',
   );
 
@@ -1365,6 +1395,11 @@ function elobbyist_theme($existing, $type, $theme, $path) {
                              'item' => NULL, 
         ),
       ),
+      'elobbyist_html' => array(
+        'variables' => array('title' => NULL,
+                             'item' => NULL, 
+        ),
+      ),
     );
   }
   
@@ -1372,6 +1407,25 @@ function elobbyist_theme($existing, $type, $theme, $path) {
 }
 
 function theme_elobbyist_field($variables) {
+  $item = $variables['item'];
+  $title = $variables['title'];
+  
+  $output = '<div class="form-item">';
+  
+  if (isset($title) && $title !== '') {
+    $output .= '<label class="elobbyist-field-label">' . $title . '</label>';
+  }
+
+  if (!empty($item)) {
+    $output .= "<span>" . check_plain($item) . "</span>" ;
+  } 
+   
+  $output .= "</div>";
+  
+  return $output;
+}
+
+function theme_elobbyist_html($variables) {
   $item = $variables['item'];
   $title = $variables['title'];
   

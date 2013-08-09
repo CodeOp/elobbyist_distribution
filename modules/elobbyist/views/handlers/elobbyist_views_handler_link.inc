@@ -6,7 +6,16 @@ class elobbyist_views_handler_link extends views_handler_field_url {
     parent:parent::init($view, $options);
     
     if (isset($this->definition['entity access'])) {
-      if (!entity_access($this->definition['entity access'], $view->base_table)) {
+      
+      $table = '';
+      if (isset($options['table']) && !empty($options['table'])) {
+        $table = $options['table'];
+      }
+      else {
+        $table = $view->base_table;
+      }
+      
+      if (!entity_access($this->definition['entity access'], $table)) {
         $this->options['exclude'] = 1;
       }
     }

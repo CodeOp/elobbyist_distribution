@@ -115,7 +115,7 @@ function elobbyist_mailing_form($form, &$form_state, $entity) {
   
   if (!empty($entity->mid)) {
     $form['ongoing']['link'] = array(
-      '#markup' => theme('elobbyist_field',
+      '#markup' => theme('elobbyist_html',
               array(
                 'title' => t('Public call to action link'),
                 'item' => l(filter_xss('elobbyist/' . $entity->mid), 'elobbyist/' . $entity->mid,
@@ -208,7 +208,7 @@ function elobbyist_mailing_page_form($form, &$form_state, $entity) {
   $form_state['elobbyist_mailing'] = $entity; 
     
   $form['link'] = array(
-    '#markup' => theme('elobbyist_field',
+    '#markup' => theme('elobbyist_html',
             array(
               'title' => t('Link'),
               'item' => l(filter_xss('elobbyist/' . $entity->mid), 'elobbyist/' . $entity->mid,
@@ -442,13 +442,25 @@ function elobbyist_mailing_page_view($entity, $view_mode = 'full') {
 
   if (!empty($entity->tid)) {
     $tmp = entity_load('elobbyist_template', array($entity->tid));
+    
+    $sTemplateLink = NULL;
+    if (entity_access('update', 'elobbyist_template')) {
+      $sTemplateLink = l(filter_xss(current($tmp)->name), 'elobbyist/template/' . $entity->tid . '/edit');
+    }
+    elseif (entity_access('view', 'elobbyist_template')) {
+      $sTemplateLink = l(filter_xss(current($tmp)->name), 'elobbyist/template/' . $entity->tid . '/view');
+    }
+    else {
+      $sTemplateLink = filter_xss(current($tmp)->name);
+    }
+    
       
     if ($tmp != null && is_array($tmp)) {
       $entity->content['tid'] = array(
-        '#markup' => theme('elobbyist_field',
+        '#markup' => theme('elobbyist_html',
             array(
               'title' => t('Template'),
-              'item' => l(filter_xss(current($tmp)->name), 'elobbyist/template/' . $entity->tid . '/edit'),
+              'item' => $sTemplateLink,
             )
          ),
         '#weight' => -45,
@@ -492,7 +504,7 @@ function elobbyist_mailing_page_view($entity, $view_mode = 'full') {
   
   if  ($entity->schedule == ELOBBYIST_MAILING_SCHEDULE_ON_GOING) {
     $entity->content['link'] = array(
-      '#markup' => theme('elobbyist_field',
+      '#markup' => theme('elobbyist_html',
               array(
                 'title' => t('Public call to action link'),
                 'item' => l(filter_xss('elobbyist/' . $entity->mid), 'elobbyist/' . $entity->mid,
@@ -517,7 +529,7 @@ function elobbyist_mailing_page_view($entity, $view_mode = 'full') {
 
       if ($tmp != null && is_array($tmp)) {
         $entity->content['addtogrpid'] = array(
-          '#markup' => theme('elobbyist_field',
+          '#markup' => theme('elobbyist_html',
               array(
                 'title' => t('Subscribers Group'),
                 'item' => l(filter_xss(current($tmp)->name), 'elobbyist/contact-group/' . $entity->addtogrpid . '/view'),
@@ -532,7 +544,7 @@ function elobbyist_mailing_page_view($entity, $view_mode = 'full') {
       $url = check_url($entity->successurl);
 
       $entity->content['successurl'] = array(
-        '#markup' => theme('elobbyist_field',
+        '#markup' => theme('elobbyist_html',
               array(
                 'title' => t('Success URL'),
                 'item' => l($url, $url),

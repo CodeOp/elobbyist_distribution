@@ -147,6 +147,64 @@ function elobbyist_template_form_submit($form, &$form_state) {
   }
 }
 
+function elobbyist_template_page_view($entity, $view_mode = 'full') {
+  
+  drupal_set_title(t('Template: @title', array(
+    '@title' => $entity->name, )), PASS_THROUGH);
+  
+  // Remove previously built content, if exists.
+  $entity->content = array();
+  
+  $entity->content['#attached']['css'] = array(
+    drupal_get_path('module', 'elobbyist') . '/includes/elobbyist.css',
+  );
+  
+ 
+  $entity->content['subject'] = array(
+    '#markup' => theme('elobbyist_field',
+        array(
+          'title' => t('Email Subject'),
+          'item' => $entity->subject,
+        )
+     ),
+    '#weight' => -30,
+  );
+  
+  if (!empty($entity->status)) {
+    $statuses = elobbyist_template_status_list();
+    $entity->content['status'] = array(
+      '#markup' => theme('elobbyist_field',
+          array(
+            'title' => t('Status'),
+            'item' => $statuses[$entity->status],
+          )
+       ),
+      '#weight' => -20,
+    );
+  }
+  
+  $entity->content['body'] = array(
+    '#markup' => theme('elobbyist_html',
+        array(
+          'title' => t('Email Body'),
+          'item' => $entity->body,
+        )
+     ),
+    '#weight' => -10,
+  );
+
+  // Build fields content.
+  field_attach_prepare_view('elobbyist_template', 
+    array($entity->tid => $entity), $view_mode);
+  
+  entity_prepare_view('elobbyist_template', array($entity->tid => $entity));
+  
+  $entity->content += field_attach_view('elobbyist_template', $entity, $view_mode);
+  
+  return $entity->content;
+}
+
+
 function elobbyist_template_save($entity) {
   return entity_get_controller('elobbyist_template')->save($entity);
 }
